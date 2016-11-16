@@ -48,12 +48,12 @@ nav {
       nav ul {
         margin-bottom: 26px;
         margin-bottom: 1.625rem; } }
-  nav li.True {
+  nav li.active {
     text-decoration: underline; }
   @media (min-width: 755px) {
     nav li {
       padding-right: 112px;
-      padding-right: 7rem;
+      padding-right: 3rem;
       display: block;
       float: left; }
       nav li:last-of-type {

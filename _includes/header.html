@@ -1,0 +1,17 @@
+<header>
+  <h1><a href='/'>Vivian Brown</a></h1>
+  <h2 class='subtitle'>Software Engineer in SF</h2>
+</header>
+<nav>
+  <ul>
+    {% for p in site.html_pages %}
+      <li class='
+        {% if page.title == p.title or page.parent == p.title %}
+          active
+        {% endif %}
+      '>
+        <a href='{{ p.path }}'>{{ p.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</nav>
