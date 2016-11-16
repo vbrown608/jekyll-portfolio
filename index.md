@@ -4,4 +4,5 @@
 # See: https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 title: Projects
 layout: home
+weight: 0
 ---

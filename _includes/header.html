@@ -4,7 +4,8 @@
 </header>
 <nav>
   <ul>
-    {% for p in site.html_pages %}
+    {% assign html_pages = site.html_pages | sort: 'weight' %}
+    {% for p in html_pages %}
       <li class='
         {% if page.title == p.title or page.parent == p.title %}
           active
