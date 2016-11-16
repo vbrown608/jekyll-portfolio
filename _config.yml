@@ -26,9 +26,20 @@ github_username:  jekyll
 
 # Build settings
 markdown: kramdown
-theme: minima
 gems:
   - jekyll-feed
 exclude:
   - Gemfile
   - Gemfile.lock
+collections:
+  projects:
+    output: true
+defaults:
+  -
+    scope:
+      path: ""
+      type: "projects" # a collection in your site, in plural form
+    values:
+      layout: "project"
+sass:
+    sass_dir: _sass

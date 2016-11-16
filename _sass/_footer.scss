@@ -1,0 +1,37 @@
+footer {
+  padding-top: 40px;
+  padding-top: 2.5rem;
+  padding-bottom: 16px;
+  padding-bottom: 1rem;
+  width: 100%;
+  text-align: center; }
+  footer:after {
+    content: "";
+    display: table;
+    clear: both; }
+  @media (min-width: 755px) {
+    footer {
+      text-align: left; } }
+  footer .social-media ul {
+    list-style: none;
+    padding: 0;
+    margin: 0; }
+    footer .social-media ul:after {
+      content: "";
+      display: table;
+      clear: both; }
+  @media (min-width: 755px) {
+    footer .social-media {
+      float: left;
+      padding-right: 50px; } }
+  footer .contact {
+    font-size: 14px;
+    font-size: 0.875rem;
+    padding-top: 25px;
+    padding-top: 1.5625rem;
+    font-family: Inconsolata; }
+    @media (min-width: 755px) {
+      footer .contact {
+        padding-top: 56px;
+        padding-top: 3.5rem;
+        float: right; } }

@@ -1,0 +1,60 @@
+header {
+  margin-bottom: 25px;
+  margin-bottom: 1.5625rem; }
+  @media (min-width: 755px) {
+    header {
+      margin-bottom: 40px;
+      margin-bottom: 2.5rem; } }
+  header h1 {
+    font-size: 38px;
+    font-size: 2.375rem;
+    font-family: "Roboto Condensed", Helvetica, sans-serif;
+    font-weight: 400;
+    margin-bottom: 0; }
+    header h1 a {
+      color: #192F9D; }
+      header h1 a:visited {
+        color: #192F9D; }
+      header h1 a:focus {
+        color: #192F9D; }
+      header h1 a:hover {
+        color: #192F9D; }
+      header h1 a:active {
+        color: #192F9D; }
+  header .subtitle, header .resume .download-link, .resume header .download-link {
+    font-size: 14px;
+    font-size: 0.875rem; }
+
+nav {
+  margin-bottom: 30px;
+  margin-bottom: 1.875rem; }
+  @media (min-width: 755px) {
+    nav {
+      margin-bottom: 18px;
+      margin-bottom: 1.125rem; } }
+  nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 22px;
+    font-size: 1.375rem;
+    font-family: "Roboto Condensed", Helvetica, sans-serif;
+    font-weight: 400; }
+    nav ul:after {
+      content: "";
+      display: table;
+      clear: both; }
+    @media (min-width: 995px) {
+      nav ul {
+        margin-bottom: 26px;
+        margin-bottom: 1.625rem; } }
+  nav li.True {
+    text-decoration: underline; }
+  @media (min-width: 755px) {
+    nav li {
+      padding-right: 112px;
+      padding-right: 7rem;
+      display: block;
+      float: left; }
+      nav li:last-of-type {
+        padding-right: 0; } }

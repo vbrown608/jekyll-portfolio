@@ -1,0 +1,66 @@
+body {
+  font-family: "Roboto", Helvetica, sans-serif;
+  font-size: 13px;
+  font-size: 0.8125rem; }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  margin-bottom: 10px;
+  margin-bottom: 0.625rem;
+  font-weight: 400; }
+
+h1 {
+  margin-bottom: 15px;
+  margin-bottom: 0.9375rem;
+  font-size: 30px;
+  font-size: 1.875rem;
+  font-family: "Roboto Condensed", Helvetica, sans-serif; }
+
+h2 {
+  margin-bottom: 12px;
+  margin-bottom: 0.75rem;
+  font-size: 24px;
+  font-size: 1.5rem;
+  font-family: "Roboto Condensed", Helvetica, sans-serif; }
+
+p {
+  margin-bottom: 15px;
+  margin-bottom: 0.9375rem; }
+
+a {
+  color: #192F9D;
+  word-break: break-all;
+  word-break: break-word;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  text-decoration: none; }
+  a:visited {
+    color: #192F9D; }
+  a:focus {
+    color: #192F9D; }
+  a:hover {
+    color: #7F54FF; }
+  a:active {
+    color: #192F9D; }
+
+em {
+  font-style: italic; }
+
+.subtitle, .resume .download-link {
+  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
+  font-size: 16px;
+  font-size: 1rem;
+  font-family: "Inconsolata", Georgia, Times, serif;
+  font-weight: 400; }
+
+.page-title {
+  margin-bottom: 4px;
+  margin-bottom: 0.25rem; }
