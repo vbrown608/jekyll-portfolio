@@ -3,6 +3,10 @@ title: Re-Ranking Text Simplification
 links:
   - Senior thesis, Pomona College
   - <a href='/files/Re_Ranking_Text_Simplification_Vivian_Brown.pdf' target='_blank'>Download full paper</a>
+thumb:
+  filename: machine-translation
+  alt: Black and white image of an old desktop machine of some sort
+description: Improvements to machine translation from complex to simple English.
 ---
 
 For my senior thesis I worked on **machine text simplification**: translating complex sentences into simple ones.

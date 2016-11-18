@@ -32,3 +32,8 @@
     .page, footer {
       padding-left: 30px;
       padding-right: 30px; } }
+
+article:after {
+  content: "";
+  display: table;
+  clear: both; }

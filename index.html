@@ -1,0 +1,26 @@
+---
+title: Projects
+layout: default
+weight: 0
+---
+
+<div class='project-list'>
+
+  {% for p in site.projects %}
+    <div class='project'>
+      <div class='thumb'>
+        <a href='{{ p.url }}'>
+          <img src='/images/{{ p.thumb.filename }}-square.png' title='{{ p.thumb.alt }}'>
+        </a>
+      </div>
+      <div class='teaser'>
+        <h3><a href='{{ p.url }}'>{{ p.title }}</a></h3>
+        <div class='description'>
+          {{ p.description }}
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+
+</div>
+

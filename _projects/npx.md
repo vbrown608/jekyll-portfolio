@@ -2,6 +2,10 @@
 title: New Play Exchange
 links:
   - <a href='http://newplayexchange.org/' target='_blank'>Visit the site</a>
+thumb:
+  filename: npx
+  alt: Cartoon illustration of a playwright
+description: Subscription-based payment processing for a new script recommendation and discovery engine.
 ---
 
 The New Play Exchange is a script discovery and recommendation engine for the new play sector. I worked on the New Play Exchange as a developer and candidate worker-owner at Quilted.

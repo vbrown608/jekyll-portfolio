@@ -43,4 +43,4 @@ defaults:
       layout: "project"
       parent: "Projects"
 sass:
-    sass_dir: _sass
+  sass_dir: _sass

@@ -3,6 +3,10 @@ title: MetaTicTacToe
 links:
   - <a href='http://metatictactoe.appspot.com/' target='_blank'>Play here</a>
   - <a href='https://github.com/vbrown608/metaTicTacToe' target='_blank'>Code on GitHub</a>
+thumb:
+  filename: metatictactoe
+  alt: Game initiation screen for metatictactoe showing the name of the game, a new game button, and an about button
+description: A web-based strategy game in Python and JavaScript. Game-playing AI based on adversarial search.
 ---
 
 MetaTicTacToe is a variation of tic-tac-toe.
