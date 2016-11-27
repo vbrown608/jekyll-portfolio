@@ -1,10 +1,30 @@
 ---
 layout: default
 ---
+{% if page.sidebar %}
+<div class='has-sidebar'>
+{% else %}
+<div class='no-sidebar'>
+{% endif %}
 
-<h1 class='page-title'>{{ page.title }}</h1>
-<div class='subtitle'>
+  <h1 class='page-title'>{{ page.title }}</h1>
+  <div class='subtitle'>
   {{ page.links | join: " | " }}
+  </div>
+
+  {{ content }}
+
 </div>
 
-{{ content }}
+<div class='screenshots sidebar'>
+  {% for image in page.sidebar %}
+  <a href='/images/{{ image.filename }}.png'><img src='/images/{{ image.filename }}.png' alt='{{ image.alt }}'></a>
+  {% endfor %}
+</div>
+
+<div class='screenshots bottom'>
+  {% for image in page.bottom %}
+  <a href='/images/{{ image.filename }}.png'><img class='normal' src='/images/{{ image.filename }}.png' alt='{{ image.alt }}'></a>
+  {% endfor %}
+</div>
+

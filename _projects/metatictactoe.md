@@ -6,6 +6,13 @@ links:
 thumb:
   filename: metatictactoe
   alt: Game initiation screen for metatictactoe showing the name of the game, a new game button, and an about button
+sidebar:
+  -
+    filename: metatictactoe-landing-page
+    alt: A screenshot of the MetaTicTacToe landing page showing instructions for gameplay
+  -
+    filename: metatictactoe-game-play
+    alt: A screenshot of a MetaTicTacToe game in progress
 description: A web-based strategy game in Python and JavaScript. Game-playing AI based on adversarial search.
 ---
 
@@ -28,7 +35,3 @@ I learned to play on paper in college. In 2013 I turned it into a web game. User
   * Jinja2
 * Adverserial search (negamax with alpha-beta pruning)
 
-<div class='screenshots sidebar'>
-  <a href='/images/metatictactoe-landing-page.png'><img src='/images/metatictactoe-landing-page.png'></a>
-  <a href='/images/metatictactoe-game-play.png'><img src='/images/metatictactoe-game-play.png'></a>
-</div>
