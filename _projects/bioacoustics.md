@@ -4,6 +4,7 @@ thumb:
   filename: bioacoustics
   alt: Map showing elevation and rivers of a natural area
 description: Application of machine learning to identify birdsong in recordings from H. J. Andrews Experimental Forest.
+weight: 68
 ---
 
 In 2010 I spent the summer working with the <a href='http://eecs.oregonstate.edu/research/bioacoustics/'>Oregon State Bioacoustics Group</a>. We parsed recordings from the H. J. Andrews Research Forest and applied machine learning techniques to identify birdsong. The ultimate goal of the project is to automatically detect the species of bird in recordings of birdsong, creating a more efficient way to collect data about **bird population distributions**.

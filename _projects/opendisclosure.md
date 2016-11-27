@@ -7,6 +7,7 @@ thumb:
   filename: opendisclosure
   alt: Map of the San Francisco Bay Area color coded by zipcode
 description: Subscription-based payment processing for a new script recommendation and discovery engine.
+weight: 65
 sidebar:
   -
     filename: opendisclosure-overview

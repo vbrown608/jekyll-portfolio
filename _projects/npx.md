@@ -6,6 +6,7 @@ thumb:
   filename: npx
   alt: Cartoon illustration of a playwright
 description: Subscription-based payment processing for a new script recommendation and discovery engine.
+weight: 80
 sidebar:
   -
     filename: npx-home-normal

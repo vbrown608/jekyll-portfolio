@@ -14,6 +14,7 @@ sidebar:
     filename: metatictactoe-game-play
     alt: A screenshot of a MetaTicTacToe game in progress
 description: A web-based strategy game in Python and JavaScript. Game-playing AI based on adversarial search.
+weight: 60
 ---
 
 MetaTicTacToe is a variation of tic-tac-toe.

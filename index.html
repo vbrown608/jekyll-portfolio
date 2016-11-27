@@ -6,7 +6,8 @@ weight: 0
 
 <div class='project-list'>
 
-  {% for p in site.projects %}
+{% assign projects = site.projects | sort: 'weight' | reverse %}
+  {% for p in projects %}
     <div class='project'>
       <div class='thumb'>
         <a href='{{ p.url }}'>

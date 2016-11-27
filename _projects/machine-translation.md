@@ -7,6 +7,7 @@ thumb:
   filename: machine-translation
   alt: Black and white image of an old desktop machine of some sort
 description: Improvements to machine translation from complex to simple English.
+weight: 40
 ---
 
 For my senior thesis I worked on **machine text simplification**: translating complex sentences into simple ones.

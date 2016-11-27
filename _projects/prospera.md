@@ -6,6 +6,7 @@ thumb:
   filename: prospera
   alt: Prospera logo
 description: Organizational website for Prospera cooperatives.
+weight: 30
 sidebar:
   -
     filename: prospera-home-normal
