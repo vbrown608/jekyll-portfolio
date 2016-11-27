@@ -1,5 +1,5 @@
 <header>
-  <h1><a href='/'>Vivian Brown</a></h1>
+  <h1><a href='{{ site.github.url }}/'>Vivian Brown</a></h1>
   <h2 class='subtitle'>Software Engineer in SF</h2>
 </header>
 <nav>
@@ -11,7 +11,7 @@
           active
         {% endif %}
       '>
-        <a href='{{ p.url }}'>{{ p.title }}</a>
+        <a href='{{ site.github.url }}{{ p.url }}'>{{ p.title }}</a>
       </li>
     {% endfor %}
   </ul>

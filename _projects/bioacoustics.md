@@ -11,7 +11,7 @@ In 2010 I spent the summer working with the <a href='http://eecs.oregonstate.edu
 
 To process the data, we split recordings into 15-second clips and performed a <a href='http://www.smbc-comics.com/?id=2874'>Fourier transform</a> to create a visual representation of the data. We worked on identifying regions of birdsong in time-frequency **spectrogram** images like the one below.
 
-<img src='/images/spectrogram.png' title='chirp chirp' alt="White markings on a black background provide a visual representation of birdsong.">
+<img src='{{ site.github.url }}/images/spectrogram.png' title='chirp chirp' alt="White markings on a black background provide a visual representation of birdsong.">
 
 To do that, we experimented with two techniques. First, we used **hysteresis** to identify louder regions within spectrograms. Second, we used a **Random Forest** trained on manually annotated spectrograms to assign a birdsong probability to each cell in a spectrogram.
 

@@ -18,13 +18,13 @@ layout: default
 
 <div class='screenshots sidebar'>
   {% for image in page.sidebar %}
-  <a href='/images/{{ image.filename }}.png'><img src='/images/{{ image.filename }}.png' alt='{{ image.alt }}'></a>
+  <a href='{{ site.github.url }}/images/{{ image.filename }}.png'><img src='{{ site.github.url }}/images/{{ image.filename }}.png' alt='{{ image.alt }}'></a>
   {% endfor %}
 </div>
 
 <div class='screenshots bottom'>
   {% for image in page.bottom %}
-  <a href='/images/{{ image.filename }}.png'><img class='normal' src='/images/{{ image.filename }}.png' alt='{{ image.alt }}'></a>
+  <a href='{{ site.github.url }}/images/{{ image.filename }}.png'><img class='normal' src='{{ site.github.url }}/images/{{ image.filename }}.png' alt='{{ image.alt }}'></a>
   {% endfor %}
 </div>
 
