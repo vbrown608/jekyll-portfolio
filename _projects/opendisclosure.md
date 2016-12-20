@@ -6,7 +6,7 @@ links:
 thumb:
   filename: opendisclosure
   alt: Map of the San Francisco Bay Area color coded by zipcode
-description: Subscription-based payment processing for a new script recommendation and discovery engine.
+description: Interactive visualization of Oakland campaign finance data in JavaScript and D3. Part of Code for America's Open Oakland Brigade.
 weight: 65
 sidebar:
   -
