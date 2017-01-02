@@ -1,0 +1,14 @@
+---
+layout: default
+title: Writing
+weight: 0.5
+---
+
+{% for p in site.blog_posts %}
+  <div class='post'>
+    <a href='{{ site.github.url }}{{ p.url }}'>
+      {{ p.title }}
+    </a>
+  </div>
+{% endfor %}
+
