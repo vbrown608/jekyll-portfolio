@@ -1,7 +1,6 @@
 body {
   font-family: "Roboto", Helvetica, sans-serif;
-  font-size: 13px;
-  font-size: 0.8125rem; }
+  font-size: 14px; }
 
 h1,
 h2,
@@ -64,3 +63,10 @@ em {
 .page-title {
   margin-bottom: 4px;
   margin-bottom: 0.25rem; }
+
+.caption {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 40px;
+}

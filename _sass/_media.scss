@@ -4,3 +4,9 @@ img, media {
 span[data-picture] {
   display: block;
   line-height: 0; }
+
+img.center {
+  display: block;
+  margin: 40px auto 10px;
+  border: 1px solid #B6B6B6;
+}
