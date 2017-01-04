@@ -21,15 +21,13 @@ description: An online organizing platform in Rails for the Electronic Frontier 
 weight: 90
 ---
 
-As a software engineer on EFF's web development team I maintain our Rails-based Action Center Platform.
-
-The platform allows administrators to create, track, and manage online organizing campaigns. EFF's supporters participate in campaigns by taking actions like
+EFF's Action Center Platform allows administrators to create, track, and manage online organizing campaigns. EFF's supporters participate in campaigns by taking actions like
 
 - signing a petition
 - submitting comments via our [Phantom of the Capitol](https://github.com/EFForg/phantom-of-the-capitol) API
 - connecting to Congress through Twilio with our [Call Congress](https://github.com/EFForg/call-congress) tool
 - posting on Twitter
 
-Users can track their actions and manage the data EFF stores. The platform is available as an open source tool for other organizations to use.
+Users can track their actions and manage the data EFF stores. The platform is built in __Rails__ and a little bit of React. It's available as an open source tool for other organizations to use.
 
-In addition to contributing to the Rails codebase, I created a Dockerfile for the app and sample docker-compose files for development and production.
+My responsibilities include adding new __backend__ and __frontend__ functionality, maintaing the application, and using __Docker__ and Docker Compose to facilitate development and deploys.
