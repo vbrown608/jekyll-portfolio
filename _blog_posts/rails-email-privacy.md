@@ -2,10 +2,9 @@
 title: Better privacy for Devise
 date: 2017-01-03T10:20:00Z
 keywords: Rails 4, Devise 3.5
+summary: Extend Devise to prevent an attacker from discovering which email addresses are registered with a Rails application.
 layout: post
 ---
-
-Extend Devise to prevent an attacker from discovering which email addresses are registered with a Rails application.
 
 ## The problem
 

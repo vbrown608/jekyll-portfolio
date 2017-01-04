@@ -1,12 +1,46 @@
+---
 layout: default
 title: Writing
 weight: 0.5
+---
 
-{% for p in site.blog_posts %}
-  <div class='post'>
-    <a href='{{ site.github.url }}{{ p.url }}'>
-      {{ p.title }}
-    </a>
-  </div>
-{% endfor %}
+<div class=posts>
+  <h1>Blog posts</h1>
 
+  {% for p in site.blog_posts %}
+    <div class='post'>
+      <div class='post-date'>
+        {{ p.date | date: '%B %-d, %Y' }}
+      </div>
+      <h2>
+        <a href='{{ site.github.url }}{{ p.url }}'>{{ p.title }}</a>
+      </h2>
+      <p>
+        {{ p.summary }}
+      </p>
+    </div>
+  {% endfor %}
+</div>
+
+<h2>Writing at Forrester</h2>
+
+<p>As a researcher at Forrester Research I wrote about enterprise software development. My coverage areas were digital experience delivery,
+requirements definition and management, and software development organizations. </p>
+
+<div class='report'>
+  <h3><a href='http://www.forrester.com/Align+ADD+And+Marketing+Metrics+For+Delivery/quickscan/-/E-RES111181' target='_blank'>Align AD&amp;D And Marketing Metrics For Delivery</a></h3>
+  <h4>Performance Management: The Digital Experience Delivery Playbook</h4>
+  <div class='byline'>Vivian Brown</div>
+</div>
+
+<div class='report'>
+  <h3><a href='http://www.forrester.com/How+And+Why+Customers+Choose+Public+Cloud+Platforms/quickscan/-/E-RES107401' target='_blank'>How And Why Customers Choose Public Cloud Platforms</a></h3>
+  <h4>Fast Delivery Is Just The Beginning</h4>
+  <div class='byline'>John R. Rymer, Vivian Brown</div>
+</div>
+
+<div class='report'>
+  <h3><a href='http://www.forrester.com/Development+Landscape+2013/quickscan/-/E-RES99261' target='_blank'>Development Landscape: 2013</a></h3>
+  <h4>Developer Forrsights North America And Europe</h4>
+  <div class='byline'>Jeffrey S. Hammond, Vivian Brown</div>
+</div>
