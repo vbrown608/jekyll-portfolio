@@ -1,9 +1,11 @@
 ---
-title: Hiding Email Addresses with Devise
-layout: default
+title: Better privacy for Devise
+date: 2017-01-03T10:20:00Z
+keywords: Rails 4, Devise 3.5
+layout: blogpost
 ---
 
-# Better privacy for Devise
+Extend Devise to prevent an attacker from discovering which email addresses are registered with a Rails application.
 
 ## The problem
 
@@ -20,7 +22,7 @@ If the e-mail address isn't registered yet, we'll send an email with confirmatio
 
 If the e-mail address is already taken, we'll send a notice that another visitor attempted register with that address. We'll also send a password reset link in case the user simply forgot about their existing account and attempted to register a second time.
 
-Because the messages are sent by email, only the owner of that e-mail address can find out if the address is already registered.
+Because the messages are sent by email, only the owner of that e-mail address can find out if the address it's registered.
 
 ![Screenshot of the user registration page with a better email privacy setup. After attempting to register, users see a message that says, "A message with the confirmation link has been sent to your email address."](/images/signup-good-privacy.png){:class='center'}
 *__Good:__ Only the owner of an e-mail address can figure out if it's already been registered.*{:class='caption'}
@@ -72,15 +74,15 @@ end
 {% endhighlight %}
 *app/controllers/registrations_controller.rb*
 
-At this point, we could override the `create` and `update` actions from the original controller and be done. But we'd have to duplicate a lot of logic from the original controller - nothing changes for users who register with an e-mail that isn't already in use.
+At this point, we could override the `create` and `update` actions from the original controller and be done. But we'd have to duplicate a lot of logic from the parent controller - nothing changes for users who register with an e-mail that isn't already in use.
 
-Another approach might be to check for a duplicate email address before calling the parent method via `super`. If the address is a duplicate, we'd set a fake success message and email a password reset token. If it's not, we'd proceed with the parent method.
+Another approach might be to check for a duplicate email address and then call the parent method via `super`. If the address is a duplicate, we'd set a fake success message and email a password reset token. If it's not, we'd proceed with the parent method.
 
-Unfortunately, that would cause problems if there's an email uniqueness validation error _and_ some other validation error. Users who submit a duplicate email as well as an invalid password, for example, should see an invalid password error. In other words, they should have the same experience as a user who submits a unique email address. In the system described above, they would see a fake success message instructing them to check their email.
+Unfortunately, that would cause problems if there's an email uniqueness validation error _and_ some other validation error. Users who submit a duplicate email as well as an invalid password, for example, should see an invalid password error. They should have the same experience as a user who submits a unique email address. But in the system described above, they would see a fake success message instructing them to check their email.
 
 We should only set a fake success message if email validation fails _and_ all other checks succeed. In other words, we need to validate the entire record first.
 
-Luckily, Devise provides use with a helpful `yield` statement in the original controller. We can pass a code block to `super` which will be executed after validation, but before setting a success or failure message - exactly when we want to handle a duplicate email address.
+Luckily, Devise provides us with a helpful `yield` statement in the original controller. We can pass a code block to `super` which will be executed after validation, but before setting a success or failure message - exactly when we want to handle a duplicate email address.
 
 Our new controller looks like this:
 
