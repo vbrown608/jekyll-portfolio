@@ -1,5 +1,5 @@
 ---
-title: Better privacy for Devise
+title: Better Privacy for Devise
 date: 2017-01-03T10:20:00Z
 keywords: Rails 4, Devise 3.5
 summary: Extend Devise to prevent an attacker from discovering which email addresses are registered with a Rails application.
@@ -10,7 +10,7 @@ layout: post
 
 On EFF's Action Center Platform, users register for an account using their e-mail address. We require each email addresse to be unique - if an email address is already taken by another user, registration should fail.
 
-This created a problem for us: let's say an attacker wanted to know if alice@example.com was an EFF supporter. They could visit the app and attempt to register a new account with the email address alice@example.com. If their registration failed, they would know alice@example.com was already a user.
+This created a problem for us: let's say an attacker wanted to know if alice@example.com was an EFF supporter. They could visit the app and attempt to register a new account with the email addresse alice@example.com. If their registration failed, they would know alice@example.com was already a user.
 
 ![Screenshot of the user registration page with bad email privacy setup. Users see an error message letting them know the email they tried to register is already taken.](/images/signup-bad-privacy.png){:class='center'}
 *__Bad:__ Visitors can figure out which email addresses are registered with the Action Center.*{:class='caption'}
@@ -19,9 +19,9 @@ A better approach is to show the same message to all users who attempt to regist
 
 If the e-mail address isn't registered yet, we'll send an email with confirmation instructions.
 
-If the e-mail address is already taken, we'll send a notice that another visitor attempted register with that address. We'll also send a password reset link in case the user simply forgot about their existing account and attempted to register a second time.
+If the e-mail address is already taken, we'll send a notice that another visitor attempted to register with that address. We'll also send a password reset link in case the user simply forgot about their existing account and attempted to register a second time.
 
-Because the messages are sent by email, only the owner of that e-mail address can find out if the address it's registered.
+Because the messages are sent by email, only the owner of that e-mail address can find out if the address is registered.
 
 ![Screenshot of the user registration page with a better email privacy setup. After attempting to register, users see a message that says, "A message with the confirmation link has been sent to your email address."](/images/signup-good-privacy.png){:class='center'}
 *__Good:__ Only the owner of an e-mail address can figure out if it's already been registered.*{:class='caption'}
@@ -60,7 +60,7 @@ end
 {% endhighlight %}
 *Devise's implementation of the create action for the registrations controller*
 
-Devise builds a new user based on the the submitted params and saves it. If the save is successful, the user is sees a success message. Otherwise they're redirected to the signup page and shown an error. There's also a `yeild` statement on line 6 - we'll come back to that soon.
+Devise builds a new user based on the submitted params and saves it. If the save is successful, the user sees a success message. Otherwise they're redirected to the signup page and shown an error. There's also a `yield` statement on line 6 - we'll come back to that soon.
 
 ## Overriding the default
 
@@ -73,7 +73,7 @@ end
 {% endhighlight %}
 *app/controllers/registrations_controller.rb*
 
-At this point, we could override the `create` and `update` actions from the original controller and be done. But we'd have to duplicate a lot of logic from the parent controller - nothing changes for users who register with an e-mail that isn't already in use.
+At this point, we could override the `create` and `update` actions from the original controller and be done. But we'd have to duplicate a lot of logic from the parent controller. Nothing changes for users who register with an e-mail that isn't already in use.
 
 Another approach might be to check for a duplicate email address and then call the parent method via `super`. If the address is a duplicate, we'd set a fake success message and email a password reset token. If it's not, we'd proceed with the parent method.
 
@@ -178,7 +178,7 @@ end
 
 ## Overriding the update action
 
-Our `create` action is working great - time to turn our attention to the `update` action. The `update` action is called when users attempt to change the e-mail address or password associated with their account.
+Our `create` action is working great. Time to turn our attention to the `update` action. The `update` action is called when users attempt to change the e-mail address or password associated with their account.
 
 When users attempt to change their e-mail address, a confirmation link is sent to the new address. Their account continues to be associated with their old address until the confirm the new one. The new address is stored as "unconfirmed" until they click the confirmation link.
 
