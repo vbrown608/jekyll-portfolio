@@ -44,5 +44,12 @@ defaults:
     values:
       layout: "project"
       parent: "Projects"
+  -
+    scope:
+      path: ""
+      type: "blog_posts" # a collection in your site, in plural form
+    values:
+      layout: "post"
+      parent: "Writing"
 sass:
   sass_dir: _sass
