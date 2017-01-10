@@ -16,7 +16,7 @@ This created a problem for us: let's say an attacker wanted to know if alice@exa
 
 A better approach is to show the same message to all users who attempt to register: a prompt to check their inbox for a confirmation message.
 
-Behind the seens, we'll check if the email address is available. If so, we'll send an email with confirmation instructions.
+Behind the secenes, we'll check if the email address is available. If so, we'll send an email with confirmation instructions.
 
 If the email address is already taken, we'll send a notice that another visitor attempted to register with that address. We'll also send a password reset link in case the user simply forgot about their existing account and attempted to register a second time.
 
