@@ -32,3 +32,11 @@
   /* line 13, ../sass/components/_writing.scss */
   .report .byline {
     font-style: italic; }
+
+// Bonkers syntax highlighting hack
+.ellipse-hack {
+  span:nth-child(19), span:nth-child(20), span:nth-child(21),
+  span:nth-child(24), span:nth-child(25), span:nth-child(26) {
+    color: #f8f8f2 !important;
+  }
+}

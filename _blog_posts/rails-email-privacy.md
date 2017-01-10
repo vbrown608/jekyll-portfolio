@@ -48,7 +48,7 @@ def create
     # (Display an error message)
   end
 end
-{% endhighlight %}
+{% endhighlight %}{:class='ellipse-hack'}
 *Devise's implementation of the create action for the registrations controller*
 
 Devise builds a new user based on the submitted params and saves it. If the save is successful, the user sees a success message. Otherwise they're redirected to the signup page and shown an error. There's also a `yield` statement on line 6 - we'll come back to that soon.
