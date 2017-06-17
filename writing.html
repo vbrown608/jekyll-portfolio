@@ -7,7 +7,8 @@ weight: 0.5
 <div class=posts>
   <h1>Blog posts</h1>
 
-  {% for p in site.blog_posts %}
+  {% assign sorted_posts = site.blog_posts | sort: 'date' | reverse %}
+  {% for p in sorted_posts %}
     <div class='post'>
       <div class='post-date'>
         {{ p.date | date: '%B %-d, %Y' }}
