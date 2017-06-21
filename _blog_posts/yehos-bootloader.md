@@ -4,7 +4,7 @@ date: 2017-06-17T10:20:00Z
 keywords: Operating Systems
 ---
 
-When you power on your computer, firmware on your computer's system board loads a single sector of your boot drive into memory. The program, called the bootloader, is responsible loading the kernel, preparing the processor to operate in the right mode, and beginning execution. In this post I'll walk through process of booting into protected mode on x86 hardware by describing the boot sequence for Yehos, a simple operating system for the X386 processor.
+When you power on your computer, firmware on your computer's system board loads a single sector of your boot drive into memory. The program, called the bootloader, is responsible for loading the next stage of the boot process (the kernel; or sometimes a second and more involved bootloader), preparing the processor to operate in the right mode for the next stage, and beginning execution. In this post I'll walk through process of booting into protected mode on x86 hardware by describing the boot sequence for Yehos, a simple operating system for the i386 processor.
 
 [Yehos](https://github.com/zormit/yehos) was created by Andrea Law, Dominic Spadacene, Moritz Neeb, Nandaja Varma, Saul Pwanson, and Vivian Brown to teach the fundamentals of operating systems development. Our annotated bootloader.asm is [available on Github](https://github.com/zormit/yehos/blob/master/bootloader.asm).
 
@@ -12,7 +12,7 @@ When you power on your computer, firmware on your computer's system board loads 
 
 ### 1. Press power to start the BIOS
 
-When a user presses the power button, the computer hardware fires a reset signal that starts the BIOS (Basic Input/Output System). The BIOS is a very simple operating system embedded on the same chip as the processor. 
+When a user presses the power button, the computer hardware fires a reset signal that places the IP inside the BIOS (Basic Input/Output System). The BIOS is initialization code and a set of basic routines, embedded on the motherboard in ROM (Read-Only Memory). 
 
 The BIOS does some basic hardware checks to make sure the keyboard, monitor, and other devices are working.
 
@@ -71,19 +71,20 @@ We overrwrite our DAP with the new address from which to read. We also indicate 
 
 ### 6. Enter protected mode
 
-The processor is capable of operating in two different modes: "real mode" and "protected mode" 
+The i386 is capable of operating in two main modes: "real mode" and "protected mode" 
 
-In real mode, we only have access to the first 20 lines of the address bus (0-19). That means we can't refer to addresses over 20 bits (5 hex characters or 1MB).
+In real mode, for several reasons, we only have access to the lower 1MB of memory.  Addresses above 1MB (20 bits or 5 hex digits) will either be truncated or cause an exception.
 
-Additionally, we use 16-bit registers in real mode. In order to represent 20-bit addresses with 16-bit registers, we rely on logical addressing. Complete addresses are formed by combining the values in a segment register and an offset.
+Additionally, we use 16-bit registers in real mode by default. In order to represent 20-bit addresses with 16-bit registers, we rely on logical addressing. Complete addresses are formed by combining the values in a segment register and an offset.
 
-In protected mode we use 32-bit registers, so we have access to all 32 lines of the address bus. That means we can use a single register to refer to any accessible location in memory.
+In protected mode we use 32-bit registers by default, so we have access to the entire 32-bit address space. That means a single 32-bit register can refer to any accessible location in memory.
 
-The bootloader begins executing in real mode and is responsible for making the switch to protected mode. There are three steps:
+Our bootloader begins executing in real mode and will make the switch to protected mode. There are four steps:
 
-1. Enable a20, the 21st line of the address bus. This gives us access to all 32 lines of the address bus.
-2. Load the [Global Descriptor Table](http://www.osdever.net/bkerndev/Docs/gdt.htm) (GDT), which we defined previously in our assembly. The global descriptor table defines base access privileges for certain parts of memory. Like the Linux kernel, we will eventually use paging to manage access privileges.
+1. Enable A20, the 21st line of the address bus. This gives us access to all 32 lines of the address bus.
+2. Load the [Global Descriptor Table](http://www.osdever.net/bkerndev/Docs/gdt.htm) (GDT), which we defined previously in our assembly. The GDT defines base access privileges for certain parts of memory. Like the Linux kernel, we will eventually use paging to manage access privileges, so all segments span the entire 32-bit address space.
 3. Set the first bit of CR0 to 1. This tells the processor to use protected mode from now on.
+4. Execute a far jmp, which loads the Code Segment (CS) and 32-bit EIP (Instruction Pointer) to point at 32-bit protected mode code.
 
 ```
 call enable_A20    ; Allow use of all address lines on the address bus.
@@ -102,3 +103,5 @@ mov esp, 0x6000      ; data stack grows down
 mov eax, 0x8000      ; jump to kernel main!
 call eax
 ```
+
+After this `call`, the kernel code is executing with.  The bootloader has set up enough scaffolding that the kernel can be written almost entirely in C.
