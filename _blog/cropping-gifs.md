@@ -118,7 +118,7 @@ An unsurprising side effect of coalesce is that it makes the filesize of the gif
 
 For that reason, after running coalesce and then transforming the image, we need to reoptimize the gif.
 
-The final imagemagick command will be something like ` convert best_woman.gif -coalesce -resize {width}x{height} -layers Optimize`.
+The final imagemagick command will be something like `convert best_woman.gif -coalesce -resize {width}x{height} -layers Optimize`.
 
 ## Calling it in Rails
 
