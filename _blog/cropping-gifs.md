@@ -60,8 +60,7 @@ When I scaled the image down using imagemagick, I wound up with a mysterious sec
 
 Similar to a flipbook or a reel of film, gifs are comparised of a stack of frames called "layers" that are displayed one by one. Gifs have a key difference from a flipbook,though: layers can be partially transparent. They can also be smaller than the overall image, called the canvas. The metadata for each layer describes where it should be placed on the canvas when it's displayed.
 
-Building gifs in this way makes it possible to create an animation by gradually stacking partially-transparent layers. Each layer overwrites only the part of the image that needs to change, creating the illusion of movement without the need to store the entire image at each frame. (1)
-**@todo footnote style**
+Building gifs in this way makes it possible to create an animation by gradually stacking partially-transparent layers. Each layer overwrites only the part of the image that needs to change, creating the illusion of movement without the need to store the entire image at each frame<sup>1</sup>.
 
 Here's a script letter "K" being drawn:
 
@@ -129,7 +128,7 @@ The final imagemagick command will be something like ` convert best-woman.gif -c
 
 The next step is to translate the command line imagemagick command into Ruby code that will be executed by CarrierWave.
 
-CarrierWave normally uses the `manipulate!` block to build commands to imagemagick. `manipulate!` called imagemagick's `mogrify` command under the hood. `mogrify` is similar to `convert`, and accepts many of the same arguements. It's used to modify batches of files in place. Unfortunately, it doesn't support the `-layers` command, which is required to both coalesce(2) and optimize the gif.
+CarrierWave normally uses the `manipulate!` block to build commands to imagemagick. `manipulate!` called imagemagick's `mogrify` command under the hood. `mogrify` is similar to `convert`, and accepts many of the same arguements. It's used to modify batches of files in place. Unfortunately, it doesn't support the `-layers` command, which is required to both coalesce<sup>2</sup> and optimize the gif.
 
 We can reach into MiniMagick, the recommended Ruby wrapper for imagemagick, and call convert as `MiniMagick::Tool::Convert.new`. Then we build up the command in the usual way. Unlike `mogrify`, `convert` doesn't overwrite the original final, so we need to finish by passing an output path.
 
@@ -149,6 +148,8 @@ end
 
 Which gives us the correctly resized image.
 ![Correctly resized gif of RuPaul with no weird artifacts](/images/scaled_best_woman.gif){:class='center'}
+
+<hr/>
 
 1. Not all gifs actually work this way. Each frame in a gif has a setting called "disposal". Disposal determines whether the preceding frame will be either (a) erased or (b) displayed underneath the current frame. The gifs described in this article all use a disposal setting of "None". That means the previous frame won't be erased - the current frame will be overlaid on top of it to create a composite image.
 
