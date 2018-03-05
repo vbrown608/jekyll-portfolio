@@ -11,9 +11,9 @@ On EFF's [Security Education Companion](https://sec.eff.org) we scale and crop i
 
 * Gifs are often composed of partially-transparent layers that stack to create the illustion of a moving image.
 * Some of the layers can be smaller than the overall image ("the canvas"). Scaling them individually changes their size relative to the canvas.
-* It's therefore necessary to preprocess them so that each layer shows the full image before applying transformations.
+* It's therefore necessary to preprocess them so that each layer show the full-sized image at that point in the animation before applying transformations.
 * Preprocessing the image in that way makes the filesize much larger. It needs to be re-optimized after the transformation.
-* Carrierwave's default `manipulate!` command doesn't allow that type of preprocessing. We need to call imagmagick's `convert` instead.
+* Carrierwave's default `manipulate!` command doesn't allow that type of preprocessing. We need to call imagmagick's `convert` directly instead.
 
 In code, it looks like this:
 
@@ -61,17 +61,19 @@ When I scaled the image down using imagemagick, I wound up with a mysterious sec
 Similar to a flipbook or a reel of film, gifs are comparised of a stack of frames called "layers" that are displayed one by one. Gifs have a key difference from a flipbook,though: layers can be partially transparent. They can also be smaller than the overall image, called the canvas. The metadata for each layer describes where it should be placed on the canvas when it's displayed.
 
 Building gifs in this way makes it possible to create an animation by gradually stacking partially-transparent layers. Each layer overwrites only the part of the image that needs to change, creating the illusion of movement without the need to store the entire image at each frame. (1)
+**@todo footnote style**
 
 Here's a script letter "K" being drawn:
 
 ![A sample animation shows a script "K" being drawn](/images/script_k.gif)
 
-This image is comprised of several smaller layers. At each frame, the next layer is added on top of the existing animation, gradually building up the complete "K".
+This image is comprised of many small layers. At each frame, the next layer is added on top of the existing animation, gradually building up the complete "K".
 
 ![Small, partially-transparent layers stack on a larger canvas to create an script "K"](/images/script_k_frames.gif)
 
 Running imagemagick's command line `identify` tool on the image reveals some metadata about each layer:
 
+**@todo syntax highlighting**
 ```bash
 $ identify -format "%f canvas=%Wx%H size=%wx%h offset=%X%Y %D %Tcs\n" script_k.gif
 script_k.gif canvas=53x54 size=1x1 offset=+0+0 None 8cs
@@ -99,23 +101,56 @@ While the layers from the end of the gif ("win") look something like this:
 ![Animation of Ru Paul with a glitch where Ru appears overlaid over the original image](/images/adjoined_best_woman/frame_019.gif){:class='center'}
 *__Frame 19__: canvas=400x225 size=400x224 offset=+0+0 None 0cs*{:class='caption'}
 
-- Not all the layers are the same size
-  - Show example from docs
-  - Show output of inspect to demonstrate
-  - When you scale/crop, each layer is scaled/cropped
-  - Explain why that gives a certain output
-- Coalesce
-  - What it does - example from the docs
-![Small, partially-transparent layers stack on a larger canvas to create an animation](/images/coalesce_k_montage.gif)
-  - We need to use it - here's how
-  - Problem: it causes the image size to get really big
-    - Probably a footnote about why that other image got really *really* big
-  - We need to re-optimize
-- Applying all this in carrierwave/minimagick
-  - "manipulate!" calls mogrify under the hood
-  - mogrify processes batches of files in place, but it can't run the "layers" command
-  - need to use "convert" instead - do it like this
 
-![Animation of Ru Paul with a glitch where Ru appears overlaid over the original image](/images/scaled_best_woman.gif)
+The layers at the end of the gif are the same size as the canvas. When we resize the image, they keep the same size and position relative to the canvas. 
+
+The layers at the beginning of the gif are narrower than the canvas and are displayed at an offset of about 244 pixels. When we resize those layers, they grow to the full width of the canvas. They keep their original offset, bumping giant Ru over to the right.
+
+Here are those two images after resizing.
+**@todo images after resizing**
+
+## Coalesce
+
+To avoid these artifacts, we need to do some preprocessing on each layer of the gif before we transform it. We use an imagemagick command called *coalesce*.
+
+Coalesce converts each layer of the image into a full-canvas snapshot showing what the gif should look like at that moment in the animation. For the example K animation, coalesce would turn each layer into a full-size, partially completed K:
+
+![Montage of gif layers showing the output of the coalesce command. Each layer now shows the full gif at that point in the animation.](/images/coalesce_k_montage.gif)
+
+`convert best-woman.gif -coalesce best-woman-coalesced.gif` gives us a coalesced version of the original image.
+
+An unsurprising side effect of coalesce is that it makes the filesize of the gif much larger. Where previously each frame had to show the pixels that changed at the moment, each frame now must show the entire image. In the case of lengthy animated gifs where very little changes from frame to frame, the file size can grow enormously.
+
+For that reason, after running coalesce and then transforming the image, we need to reoptimize the gif.
+
+The final imagemagick command will be something like ` convert best-woman.gif -coalesce -resize {width}x{height} -layers Optimize`.
+
+## Calling it in Rails
+
+The next step is to translate the command line imagemagick command into Ruby code that will be executed by CarrierWave.
+
+CarrierWave normally uses the `manipulate!` block to build commands to imagemagick. `manipulate!` called imagemagick's `mogrify` command under the hood. `mogrify` is similar to `convert`, and accepts many of the same arguements. It's used to modify batches of files in place. Unfortunately, it doesn't support the `-layers` command, which is required to both coalesce(2) and optimize the gif.
+
+We can reach into MiniMagick, the recommended Ruby wrapper for imagemagick, and call convert as `MiniMagick::Tool::Convert.new`. Then we build up the command in the usual way. Unlike `mogrify`, `convert` doesn't overwrite the original final, so we need to finish by passing an output path.
+
+Here, again, is the Ruby-fied call to `convert`:
+
+{% highlight ruby %}
+MiniMagick::Tool::Convert.new do |image| # Calls imagemagick's "convert" command
+  image << @file.path
+  image.coalesce # Remove optimizations so each layer shows the full image.
+
+  yield image # Caller applies the transformation.
+
+  image.layers "Optimize" # Re-optimize the image.
+  image << @file.path
+end
+{% endhighlight %}
+
+Which gives us the correctly resized image.
+![Correctly resized gif of RuPaul with no weird artifacts](/images/scaled_best_woman.gif){:class='center'}
 
 1. Not all gifs actually work this way. Each frame in a gif has a setting called "disposal". Disposal determines whether the preceding frame will be either (a) erased or (b) displayed underneath the current frame. The gifs described in this article all use a disposal setting of "None". That means the previous frame won't be erased - the current frame will be overlaid on top of it to create a composite image.
+
+2. `-coalesce` is shorthand for `-layers coalesce`.
+
