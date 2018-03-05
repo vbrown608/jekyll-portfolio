@@ -60,9 +60,9 @@ When I scaled the image down using imagemagick, I wound up with a mysterious sec
 
 Similar to a flipbook or a reel of film, gifs are comparised of a stack of frames called "layers" that are displayed one by one. Gifs have a key difference from a flipbook,though: layers can be partially transparent. They can also be smaller than the overall image, called the canvas. The metadata for each layer describes where it should be placed on the canvas when it's displayed.
 
-Building gifs in this way makes it possible to create an animation by gradually stacking partially-transparent layers. Each layer overwrites only the part of the image that needs to change, creating the illusion of movement without the need to store the entire image at each frame<sup>1</sup>.
+Building gifs in this way makes it possible to create an animation by gradually stacking partially-transparent layers. Each layer overwrites only the part of the image that needs to change, creating the illusion of movement without the need to store the entire image at each frame[^1].
 
-Here's a script letter "K" being drawn<sup>2</sup>:
+Here's a script letter "K" being drawn[^2]:
 
 ![A sample animation shows a script "K" being drawn](/images/script_k.gif)
 
@@ -76,7 +76,7 @@ ImageMagick's command line `identify` tool outputs some metadata about each laye
 $ identify -format "%f canvas=%Wx%H size=%wx%h offset=%X%Y %D %Tcs\n" best_woman.gif
 {% endhighlight %}
 
-Here's a layer that's representative of the first half of the gif. Ru is saying, "And may the best woman". The original layer is narrower than the overall canvas. It's displayed at an offset so that it's centered within the canvas. When we resize the image, we resize each layer without considering its original size. As a result, these layer become far too wide<sup>3</sup>. They keep their original offset, bumping Ru over to the right.
+Here's a layer that's representative of the first half of the gif. Ru is saying, "And may the best woman". The original layer is narrower than the overall canvas. It's displayed at an offset so that it's centered within the canvas. When we resize the image, we resize each layer without considering its original size. As a result, these layer become far too wide[^3]. They keep their original offset, bumping Ru over to the right.
 
 <div class="flex-column-wrapper">
 <div class="left-col" markdown="1">
@@ -124,7 +124,7 @@ The final imagemagick command will be something like ` convert best_woman.gif -c
 
 The next step is to translate the command line imagemagick command into Ruby code that will be executed by CarrierWave.
 
-CarrierWave normally uses the `manipulate!` block to build commands to imagemagick. `manipulate!` called imagemagick's `mogrify` command under the hood. `mogrify` is similar to `convert`, and accepts many of the same arguements. It's used to modify batches of files in place. Unfortunately, it doesn't support the `-layers` command, which is required to both coalesce<sup>4</sup> and optimize the gif.
+CarrierWave normally uses the `manipulate!` block to build commands to imagemagick. `manipulate!` called imagemagick's `mogrify` command under the hood. `mogrify` is similar to `convert`, and accepts many of the same arguements. It's used to modify batches of files in place. Unfortunately, it doesn't support the `-layers` command, which is required to both coalesce[^4] and optimize the gif.
 
 We can reach into MiniMagick, the recommended Ruby wrapper for imagemagick, and call convert as `MiniMagick::Tool::Convert.new`. Then we build up the command in the usual way. Unlike `mogrify`, `convert` doesn't overwrite the original final, so we need to finish by passing an output path.
 
@@ -147,11 +147,11 @@ Which gives us the correctly resized image.
 
 <hr/>
 
-1. Not all gifs actually work this way. Each frame in a gif has a setting called "disposal". Disposal determines whether the preceding frame will be either (a) erased or (b) displayed underneath the current frame. The gifs described in this article all use a disposal setting of "None". That means the previous frame won't be erased - the current frame will be overlaid on top of it to create a composite image.
+[^1]: Not all gifs actually work this way. Each frame in a gif has a setting called "disposal". Disposal determines whether the preceding frame will be either (a) erased or (b) displayed underneath the current frame. The gifs described in this article all use a disposal setting of "None". That means the previous frame won't be erased - the current frame will be overlaid on top of it to create a composite image.
 
-2. This example, as well as most of my understanding of the gif format, comes from Anthony Thyssen's excellent guide at [https://www.imagemagick.org/Usage/anim_basics/](https://www.imagemagick.org/Usage/anim_basics/).
+[^2]: This example, as well as most of my understanding of the gif format, comes from Anthony Thyssen's excellent guide at [https://www.imagemagick.org/Usage/anim_basics/](https://www.imagemagick.org/Usage/anim_basics/).
 
-3. In this case, the each frame grows to be 400px in its' largest dimension.
+[^3]: In this case, the each frame grows to be 400px in its' largest dimension.
 
-4. `-coalesce` is shorthand for `-layers coalesce`.
+[^4]: `-coalesce` is shorthand for `-layers coalesce`.
 
