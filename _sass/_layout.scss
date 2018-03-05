@@ -1,3 +1,18 @@
+@media (min-width: 995px) {
+  .left-col {
+    padding-right: 20px;
+  }
+
+  .right-col {
+    padding-left: 20px;
+  }
+
+  .flex-column-wrapper {
+    display: flex;
+    align-items: flex-end;
+  }
+}
+
 .page, footer {
   max-width: 100%;
   margin-left: auto;

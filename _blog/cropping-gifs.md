@@ -62,51 +62,47 @@ Similar to a flipbook or a reel of film, gifs are comparised of a stack of frame
 
 Building gifs in this way makes it possible to create an animation by gradually stacking partially-transparent layers. Each layer overwrites only the part of the image that needs to change, creating the illusion of movement without the need to store the entire image at each frame<sup>1</sup>.
 
-Here's a script letter "K" being drawn:
+Here's a script letter "K" being drawn<sup>2</sup>:
 
 ![A sample animation shows a script "K" being drawn](/images/script_k.gif)
 
-This image is comprised of many small layers. At each frame, the next layer is added on top of the existing animation, gradually building up the complete "K".
+This image is comprised of many small layers. At each frame, the next layer is added on top of the existing animation, gradually building up the complete "K".  We can see that each layer is smaller than the overall canvas. Each layer also includes an offset, which describes where to place the layer on the canvas when it's displayed.
 
 ![Small, partially-transparent layers stack on a larger canvas to create an script "K"](/images/script_k_frames.gif)
 
-Running imagemagick's command line `identify` tool on the image reveals some metadata about each layer:
+ImageMagick's command line `identify` tool outputs some metadata about each layer of the gif.
 
-**@todo syntax highlighting**
-```bash
-$ identify -format "%f canvas=%Wx%H size=%wx%h offset=%X%Y %D %Tcs\n" script_k.gif
-script_k.gif canvas=53x54 size=1x1 offset=+0+0 None 8cs
-script_k.gif canvas=53x54 size=19x15 offset=+1+7 None 4cs
-script_k.gif canvas=53x54 size=16x18 offset=+17+5 None 4cs
-script_k.gif canvas=53x54 size=17x23 offset=+8+21 None 4cs
-script_k.gif canvas=53x54 size=5x6 offset=+5+42 None 20cs
-script_k.gif canvas=53x54 size=16x10 offset=+34+8 None 4cs
-script_k.gif canvas=53x54 size=17x12 offset=+19+15 None 4cs
-script_k.gif canvas=53x54 size=11x14 offset=+14+23 None 4cs
-script_k.gif canvas=53x54 size=14x12 offset=+21+31 None 4cs
-script_k.gif canvas=53x54 size=11x10 offset=+31+38 None 4cs
-script_k.gif canvas=53x54 size=5x6 offset=+39+44 None 200cs
-```
+{% highlight shell_session %}
+$ identify -format "%f canvas=%Wx%H size=%wx%h offset=%X%Y %D %Tcs\n" best_woman.gif
+{% endhighlight %}
 
-We can see that each layer is smaller than the overall canvas. Each layer also includes an offset, which describes where to place the layer on the canvas when it's displayed.
+Here's a layer that's representative of the first half of the gif. Ru is saying, "And may the best woman". The original layer is narrower than the overall canvas. It's displayed at an offset so that it's centered within the canvas. When we resize the image, we resize each layer without considering its original size. As a result, these layer become far too wide<sup>3</sup>. They keep their original offset, bumping Ru over to the right.
 
-Examining the RuPaul gif, we can see that layers where she's saying "And may the best woman" all look something like this:
+<div class="flex-column-wrapper">
+<div class="left-col" markdown="1">
+![](/images/best_woman_09.gif){:class='center'}
+*__Frame 9 before__: canvas=500x281 size=186x281 offset=+171+0 None 0cs*{:class='caption'}
+</div>
 
-![Animation of Ru Paul with a glitch where Ru appears overlaid over the original image](/images/adjoined_best_woman/frame_009.gif){:class='center'}
-*__Frame 9__: canvas=400x225 size=265x400 offset=+244+0 None 0cs*{:class='caption'}
+<div class="right-col" markdown="1">
+![](/images/glitchy_best_woman_09.gif){:class='center'}
+*__Frame 9 after__: canvas=400x225 size=265x400 offset=+244+0 None 0cs*{:class='caption'}
+</div>
+</div>
 
-While the layers from the end of the gif ("win") look something like this:
+Frame 19 is representative of the second half of the gif (where Ru says "win"). Those frames are the same size as the overall canvas, so there's no need to display them at an offset. When we resize the image, they keep their original dimensions and position relative to the canvas.
 
-![Animation of Ru Paul with a glitch where Ru appears overlaid over the original image](/images/adjoined_best_woman/frame_019.gif){:class='center'}
-*__Frame 19__: canvas=400x225 size=400x224 offset=+0+0 None 0cs*{:class='caption'}
+<div class="flex-column-wrapper">
+<div class="left-col" markdown="1">
+![](/images/adjoined_best_woman/frame_019.gif){:class='center'}
+*__Frame 19 before__: canvas=500x281 size=500x280 offset=+0+0 None 0cs*{:class='caption'}
+</div>
 
-
-The layers at the end of the gif are the same size as the canvas. When we resize the image, they keep the same size and position relative to the canvas. 
-
-The layers at the beginning of the gif are narrower than the canvas and are displayed at an offset of about 244 pixels. When we resize those layers, they grow to the full width of the canvas. They keep their original offset, bumping giant Ru over to the right.
-
-Here are those two images after resizing.
-**@todo images after resizing**
+<div class="right-col" markdown="1">
+![](/images/glitchy_best_woman_19.gif){:class='center'}
+*__Frame 19 after__: canvas=400x225 size=400x224 offset=+0+0 None 0cs*{:class='caption'}
+</div>
+</div>
 
 ## Coalesce
 
@@ -116,19 +112,19 @@ Coalesce converts each layer of the image into a full-canvas snapshot showing wh
 
 ![Montage of gif layers showing the output of the coalesce command. Each layer now shows the full gif at that point in the animation.](/images/coalesce_k_montage.gif)
 
-`convert best-woman.gif -coalesce best-woman-coalesced.gif` gives us a coalesced version of the original image.
+`convert best_woman.gif -coalesce best_woman_coalesced.gif` gives us a coalesced version of the original image.
 
 An unsurprising side effect of coalesce is that it makes the filesize of the gif much larger. Where previously each frame had to show the pixels that changed at the moment, each frame now must show the entire image. In the case of lengthy animated gifs where very little changes from frame to frame, the file size can grow enormously.
 
 For that reason, after running coalesce and then transforming the image, we need to reoptimize the gif.
 
-The final imagemagick command will be something like ` convert best-woman.gif -coalesce -resize {width}x{height} -layers Optimize`.
+The final imagemagick command will be something like ` convert best_woman.gif -coalesce -resize {width}x{height} -layers Optimize`.
 
 ## Calling it in Rails
 
 The next step is to translate the command line imagemagick command into Ruby code that will be executed by CarrierWave.
 
-CarrierWave normally uses the `manipulate!` block to build commands to imagemagick. `manipulate!` called imagemagick's `mogrify` command under the hood. `mogrify` is similar to `convert`, and accepts many of the same arguements. It's used to modify batches of files in place. Unfortunately, it doesn't support the `-layers` command, which is required to both coalesce<sup>2</sup> and optimize the gif.
+CarrierWave normally uses the `manipulate!` block to build commands to imagemagick. `manipulate!` called imagemagick's `mogrify` command under the hood. `mogrify` is similar to `convert`, and accepts many of the same arguements. It's used to modify batches of files in place. Unfortunately, it doesn't support the `-layers` command, which is required to both coalesce<sup>4</sup> and optimize the gif.
 
 We can reach into MiniMagick, the recommended Ruby wrapper for imagemagick, and call convert as `MiniMagick::Tool::Convert.new`. Then we build up the command in the usual way. Unlike `mogrify`, `convert` doesn't overwrite the original final, so we need to finish by passing an output path.
 
@@ -153,5 +149,9 @@ Which gives us the correctly resized image.
 
 1. Not all gifs actually work this way. Each frame in a gif has a setting called "disposal". Disposal determines whether the preceding frame will be either (a) erased or (b) displayed underneath the current frame. The gifs described in this article all use a disposal setting of "None". That means the previous frame won't be erased - the current frame will be overlaid on top of it to create a composite image.
 
-2. `-coalesce` is shorthand for `-layers coalesce`.
+2. This example, as well as most of my understanding of the gif format, comes from Anthony Thyssen's excellent guide at [https://www.imagemagick.org/Usage/anim_basics/](https://www.imagemagick.org/Usage/anim_basics/).
+
+3. In this case, the each frame grows to be 400px in its' largest dimension.
+
+4. `-coalesce` is shorthand for `-layers coalesce`.
 
