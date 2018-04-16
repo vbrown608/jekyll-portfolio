@@ -11,7 +11,7 @@ On EFF's [Security Education Companion](https://sec.eff.org) we scale and crop i
 
 * Gifs are often composed of partially-transparent layers that stack to create the illustion of a moving image.
 * Some of the layers can be smaller than the overall image ("the canvas"). Scaling them individually changes their size relative to the canvas.
-* It's therefore necessary to preprocess them so that each layer show the full-sized image at that point in the animation before applying transformations.
+* It's necessary to preprocess them using imagemagick's coalesce command. Coalesce takes each layer and outputs the complete, non-transparent animation frame at that point in time.
 * Preprocessing the image in that way makes the filesize much larger. It needs to be re-optimized after the transformation.
 * Carrierwave's default `manipulate!` command doesn't allow that type of preprocessing. We need to call imagmagick's `convert` directly instead.
 
@@ -76,7 +76,7 @@ ImageMagick's command line `identify` tool outputs some metadata about each laye
 $ identify -format "%f canvas=%Wx%H size=%wx%h offset=%X%Y %D %Tcs\n" best_woman.gif
 {% endhighlight %}
 
-Here's a layer that's representative of the first half of the gif. Ru is saying, "And may the best woman". The original layer is narrower than the overall canvas. It's displayed at an offset so that it's centered within the canvas. When we resize the image, we resize each layer without considering its original size. As a result, these layer become far too wide[^3]. They keep their original offset, bumping Ru over to the right.
+Here's a layer that's representative of the first half of the Ru Paul gif. Ru is saying, "And may the best woman". The original layer is narrower than the overall canvas. It's displayed at an offset so that it's centered within the canvas. When we resize the image, we resize each layer to the target size without considering its original size. As a result, these layers become far too wide[^3]. They keep their original offset, bumping Ru over to the right.
 
 <div class="flex-column-wrapper">
 <div class="left-col" markdown="1">
@@ -108,13 +108,13 @@ Frame 19 is representative of the second half of the gif (where Ru says "win"). 
 
 To avoid these artifacts, we need to do some preprocessing on each layer of the gif before we transform it. We use an imagemagick command called *coalesce*.
 
-Coalesce converts each layer of the image into a full-canvas snapshot showing what the gif should look like at that moment in the animation. For the example K animation, coalesce would turn each layer into a full-size, partially completed K:
+Coalesce converts each layer of the image into a full-canvas snapshot showing what the gif should look like at that moment in time. For the example K animation, coalesce would turn each layer into a full-size, partially completed K:
 
 ![Montage of gif layers showing the output of the coalesce command. Each layer now shows the full gif at that point in the animation.](/images/coalesce_k_montage.gif)
 
 `convert best_woman.gif -coalesce best_woman_coalesced.gif` gives us a coalesced version of the original image.
 
-An unsurprising side effect of coalesce is that it makes the filesize of the gif much larger. Where previously each frame had to show the pixels that changed at the moment, each frame now must show the entire image. In the case of lengthy animated gifs where very little changes from frame to frame, the file size can grow enormously.
+An unsurprising side effect of coalesce is that it makes the filesize of the gif much larger. Where previously each frame had to show only the pixels that changed since the previous frame, each frame now must show the entire image. In the case of lengthy animated gifs where very little changes from frame to frame, the file size can grow enormously.
 
 For that reason, after running coalesce and then transforming the image, we need to reoptimize the gif.
 
@@ -154,4 +154,3 @@ Which gives us the correctly resized image.
 [^3]: In this case, the each frame grows to be 400px in its' largest dimension.
 
 [^4]: `-coalesce` is shorthand for `-layers coalesce`.
-
