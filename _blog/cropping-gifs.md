@@ -12,7 +12,7 @@ On EFF's [Security Education Companion](https://sec.eff.org) we scale and crop i
 * Gifs are often composed of partially-transparent layers that stack to create the illustion of a moving image.
 * Some of the layers can be smaller than the overall image ("the canvas"). Scaling them individually changes their size relative to the canvas.
 * It's necessary to preprocess them using imagemagick's coalesce command. Coalesce takes each layer and outputs the complete, non-transparent animation frame at that point in time.
-* Preprocessing the image in that way makes the filesize much larger. It needs to be re-optimized after the transformation.
+* Preprocessing the image in that way makes the file size much larger. It needs to be re-optimized after the transformation.
 * Carrierwave's default `manipulate!` command doesn't allow that type of preprocessing. We need to call imagmagick's `convert` directly instead.
 
 In code, it looks like this:
@@ -58,7 +58,7 @@ When I scaled the image down using imagemagick, I wound up with a mysterious sec
 
 ## How are animated gifs stored?
 
-Similar to a flipbook or a reel of film, gifs are comparised of a stack of frames called "layers" that are displayed one by one. Gifs have a key difference from a flipbook,though: layers can be partially transparent. They can also be smaller than the overall image, called the canvas. The metadata for each layer describes where it should be placed on the canvas when it's displayed.
+Similar to a flipbook or a reel of film, gifs are comprised of a stack of frames called "layers" that are displayed one by one. Gifs have a key difference from a flipbook,though: layers can be partially transparent. They can also be smaller than the overall image, called the canvas. The metadata for each layer describes where it should be placed on the canvas when it's displayed.
 
 Building gifs in this way makes it possible to create an animation by gradually stacking partially-transparent layers. Each layer overwrites only the part of the image that needs to change, creating the illusion of movement without the need to store the entire image at each frame[^1].
 
