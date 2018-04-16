@@ -1,6 +1,6 @@
 ---
 title: "Processing Animated Gifs with Imagemagick: A Tale of Two Ru's"
-date: 2017-11-19T10:20:00Z
+date: 2018-04-15T10:20:00Z
 keywords: Rails 5.1, Carrierwave 1.2.1, Minimagick 4.8.0, Imagemagick 6.8.9-9
 summary: How to scale, crop, and transform animated gifs on the Rails backend without artifacts
 ---
