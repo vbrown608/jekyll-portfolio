@@ -94,7 +94,7 @@ Frame 19 is representative of the second half of the gif (where Ru says "win"). 
 
 <div class="flex-column-wrapper">
 <div class="left-col" markdown="1">
-![](/images/adjoined_best_woman/frame_019.gif){:class='center'}
+![](/images/best_woman_19.gif){:class='center'}
 *__Frame 19 before__: canvas=500x281 size=500x280 offset=+0+0 None 0cs*{:class='caption'}
 </div>
 
