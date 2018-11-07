@@ -53,3 +53,5 @@ defaults:
       parent: "Writing"
 sass:
   sass_dir: _sass
+prose:
+  siteurl: "http://vivianbrown.net"
