@@ -4,7 +4,7 @@ date: 2017-06-17T10:20:00Z
 keywords: Operating Systems
 ---
 
-When you power on your computer, firmware on your computer's system board loads a single sector of your boot drive into memory. The program, called the bootloader, is responsible loading the kernel, preparing the processor to operate in the right mode, and beginning execution. In this post I'll walk through process of booting into protected mode on x86 hardware by describing the boot sequence for Yehos, a simple operating system for the X386 processor.
+When you power on your computer, firmware on your computer's system board loads a single sector of your boot drive into memory. The program, called the bootloader, is responsible for loading the kernel, preparing the processor to operate in the right mode, and beginning execution. In this post I'll walk through process of booting into protected mode on x86 hardware by describing the boot sequence for Yehos, a simple operating system for the X386 processor.
 
 [Yehos](https://github.com/zormit/yehos) was created by Andrea Law, Dominic Spadacene, Moritz Neeb, Nandaja Varma, Saul Pwanson, and Vivian Brown to teach the fundamentals of operating systems development. Our annotated bootloader.asm is [available on Github](https://github.com/zormit/yehos/blob/master/bootloader.asm).
 

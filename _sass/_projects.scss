@@ -13,11 +13,11 @@
   margin-bottom: 1.25rem;
   display: block;
   float: left;
-  max-width: 215px; }
-  @media (min-width: 755px) {
+  max-width: 150px; }
+  @media (min-width: 500px) {
     .project-list .thumb {
       width: 215px;
-      width: 13.4375rem;
+      width: 130px;
       max-width: none;
       margin-right: 17px;
       margin-right: 1.0625rem;
@@ -36,7 +36,7 @@
 .project-list .teaser {
   width: 100%;
   clear: both; }
-  @media (min-width: 755px) {
+  @media (min-width: 500px) {
     .project-list .teaser {
       @inclue remify-style(width, 448px);
       clear: none; } }

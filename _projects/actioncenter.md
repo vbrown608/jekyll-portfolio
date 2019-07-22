@@ -18,16 +18,16 @@ sidebar:
     filename: edit-call-screenshot
     alt: A screenshot of the edit action page from the perspective of an administrator. They can associate the action with a call campaign and input information about the campaign.
 description: An online organizing platform in Rails for the Electronic Frontier Foundation.
-weight: 90
+weight: 95
 ---
 
 EFF's Action Center Platform allows administrators to create, track, and manage online organizing campaigns. EFF's supporters participate in campaigns by taking actions like
 
 - signing a petition
-- submitting comments via our [Phantom of the Capitol](https://github.com/EFForg/phantom-of-the-capitol) API
+- submitting comments via our [Congress Forms](https://github.com/EFForg/congress_forms) API
 - connecting to Congress through Twilio with our [Call Congress](https://github.com/EFForg/call-congress) tool
 - posting on Twitter
 
-Users can track their actions and manage the data EFF stores. The platform is built in __Rails__ and a little bit of React. It's available as an open source tool for other organizations to use.
+Users can track their actions and manage the data EFF stores. The platform is built in Rails and a little bit of React. It's available as an open source tool for other organizations to use.
 
-My responsibilities include adding new __backend__ and __frontend__ functionality, maintaing the application, and using __Docker__ and Docker Compose to facilitate development and deploys.
+My responsibilities include adding new backend and frontend functionality, maintaing the application, and using Docker and Docker Compose to facilitate development and deploys.

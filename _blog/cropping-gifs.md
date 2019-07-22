@@ -50,15 +50,15 @@ end
 
 Here's a gif of RuPaul I used while testing this feature:
 
-![Animation of Ru Paul in Drag saying "May the best woman win"](/images/best_woman.gif){:class='center'}
+![Animation of RuPaul in Drag saying "May the best woman win"](/images/best_woman.gif){:class='center'}
 
 When I scaled the image down using imagemagick, I wound up with a mysterious second Ru!
 
-![Animation of Ru Paul with a glitch where Ru appears overlaid over the original image](/images/glitchy_best_woman.gif){:class='center'}
+![Animation of RuPaul with a glitch where Ru appears overlaid over the original image](/images/glitchy_best_woman.gif){:class='center'}
 
 ## How are animated gifs stored?
 
-Similar to a flipbook or a reel of film, gifs are comprised of a stack of frames called "layers" that are displayed one by one. Gifs have a key difference from a flipbook,though: layers can be partially transparent. They can also be smaller than the overall image, called the canvas. The metadata for each layer describes where it should be placed on the canvas when it's displayed.
+Similar to a flipbook or a reel of film, gifs are comprised of a stack of frames called "layers" that are displayed one by one. Gifs have a key difference from a flipbook, though: layers can be partially transparent. They can also be smaller than the overall image, called the canvas. The metadata for each layer describes where it should be placed on the canvas when it's displayed.
 
 Building gifs in this way makes it possible to create an animation by gradually stacking partially-transparent layers. Each layer overwrites only the part of the image that needs to change, creating the illusion of movement without the need to store the entire image at each frame[^1].
 
@@ -76,7 +76,7 @@ ImageMagick's command line `identify` tool outputs some metadata about each laye
 $ identify -format "%f canvas=%Wx%H size=%wx%h offset=%X%Y %D %Tcs\n" best_woman.gif
 {% endhighlight %}
 
-Here's a layer that's representative of the first half of the Ru Paul gif. Ru is saying, "And may the best woman". The original layer is narrower than the overall canvas. It's displayed at an offset so that it's centered within the canvas. When we resize the image, we resize each layer to the target size without considering its original size. As a result, these layers become far too wide[^3]. They keep their original offset, bumping Ru over to the right.
+Here's a layer that's representative of the first half of the RuPaul gif. Ru is saying, "And may the best woman". The original layer is narrower than the overall canvas. It's displayed at an offset so that it's centered within the canvas. When we resize the image, we resize each layer to the target size without considering its original size. As a result, these layers become far too wide[^3]. They keep their original offset, bumping Ru over to the right.
 
 <div class="flex-column-wrapper">
 <div class="left-col" markdown="1">
@@ -124,7 +124,7 @@ The final imagemagick command will be something like `convert best_woman.gif -co
 
 The next step is to translate the command line imagemagick command into Ruby code that will be executed by CarrierWave.
 
-CarrierWave normally uses the `manipulate!` block to build commands to imagemagick. `manipulate!` called imagemagick's `mogrify` command under the hood. `mogrify` is similar to `convert`, and accepts many of the same arguements. It's used to modify batches of files in place. Unfortunately, it doesn't support the `-layers` command, which is required to both coalesce[^4] and optimize the gif.
+CarrierWave normally uses the `manipulate!` block to build commands for imagemagick. `manipulate!` calls imagemagick's `mogrify` command under the hood. `mogrify` is similar to `convert`, and accepts many of the same arguements. It's used to modify batches of files in place. Unfortunately, it doesn't support the `-layers` command, which is required to both coalesce[^4] and optimize the gif.
 
 We can reach into MiniMagick, the recommended Ruby wrapper for imagemagick, and call convert as `MiniMagick::Tool::Convert.new`. Then we build up the command in the usual way. Unlike `mogrify`, `convert` doesn't overwrite the original final, so we need to finish by passing an output path.
 
